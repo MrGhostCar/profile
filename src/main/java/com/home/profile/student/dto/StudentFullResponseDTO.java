@@ -1,39 +1,48 @@
 package com.home.profile.student.dto;
 
+import com.home.profile.address.AddressDTO;
+
 import java.util.UUID;
 
 public class StudentFullResponseDTO {
 
-    private UUID id;
+  private UUID id;
 
-    private String name;
+  private String name;
 
-    private String email;
+  private String email;
 
-    private String address;
+  private AddressDTO address;
 
-    public UUID getId() {
-        return id;
-    }
+  public UUID getId() {
+    return id;
+  }
 
-    public void setId(UUID id) {
-        this.id = id;
-    }
+  public void setId(UUID id) {
+    this.id = id;
+  }
 
-    public String getName() {
-        return name;
-    }
+  public String getName() {
+    return name;
+  }
 
-    public void setName(String name) {
-        this.name = name;
-    }
+  public void setName(String name) {
+    this.name = name;
+  }
 
-    public String getEmail() {
-        return email;
-    }
+  public String getEmail() {
+    return email;
+  }
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
+  public void setEmail(String email) {
+    this.email = email;
+  }
 
+  public AddressDTO getAddress() {
+    return address;
+  }
+
+  public void setAddress(AddressDTO address) {
+    this.address = address;
+  }
 }

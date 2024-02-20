@@ -1,5 +1,7 @@
 package com.home.profile.student;
 
+import com.home.profile.address.AddressDTO;
+import com.home.profile.address.AddressService;
 import com.home.profile.student.dto.StudentFullResponseDTO;
 import com.home.profile.student.dto.StudentRequestDTO;
 import com.home.profile.student.dto.StudentResponseDTO;
@@ -9,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -18,6 +21,9 @@ public class StudentService {
 
     @Autowired
     ModelMapper modelMapper;
+
+    @Autowired
+    AddressService addressService;
 
     public StudentResponseDTO createStudent(StudentRequestDTO studentRequestDTO) {
         Student student = modelMapper.map(studentRequestDTO, Student.class);
@@ -41,7 +47,18 @@ public class StudentService {
         studentRepository.deleteById(id);
     }
 
-    public StudentFullResponseDTO getFullStudent() {
-        return null;
+    public StudentFullResponseDTO getFullStudent(UUID id) {
+        AddressDTO address = addressService.getAddressByStudentId(id);
+        Optional<Student> student = studentRepository.findById(id);
+
+        if (student.isPresent()) {
+            StudentFullResponseDTO studentDTO;
+            studentDTO = modelMapper.map(student, StudentFullResponseDTO.class);
+            studentDTO.setAddress(address);
+            return studentDTO;
+        } else {
+            return null;
+        }
     }
+
 }

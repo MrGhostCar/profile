@@ -31,7 +31,7 @@ public class StudentController {
 
     @GetMapping("/student/{id}")
     public StudentFullResponseDTO getFullStudent(@PathVariable UUID id) {
-        return studentService.getFullStudent();
+        return studentService.getFullStudent(id);
     }
 
     @PutMapping("/student")
