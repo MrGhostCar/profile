@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-import java.util.regex.Pattern;
 
 @Service
 public class StudentService {
@@ -19,17 +18,10 @@ public class StudentService {
     @Autowired
     ModelMapper modelMapper;
 
-    public StudentResponseDTO createStudent(StudentRequestDTO studentRequestDTO) throws StudentValidationException {
+    public StudentResponseDTO createStudent(StudentRequestDTO studentRequestDTO) {
         Student student = modelMapper.map(studentRequestDTO, Student.class);
-        validateStudent(student);
         Student savedStudent = studentRepository.save(student);
         return modelMapper.map(savedStudent, StudentResponseDTO.class);
-    }
-
-    private void validateStudent(Student student) throws StudentValidationException {
-        boolean emailValidated = emailValidation(student.getEmail());
-        if (!emailValidated)
-            throw new StudentValidationException("Student email is not valid.");
     }
 
     public List<StudentResponseDTO> getStudents() {
@@ -46,13 +38,6 @@ public class StudentService {
 
     public void deleteStudent(UUID id) {
         studentRepository.deleteById(id);
-    }
-
-    private boolean emailValidation(String emailAddress) {
-        String regexPattern = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
-        return Pattern.compile(regexPattern)
-                .matcher(emailAddress)
-                .matches();
     }
 
 }
