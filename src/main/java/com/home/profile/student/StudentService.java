@@ -1,5 +1,6 @@
 package com.home.profile.student;
 
+import com.home.profile.student.dto.StudentFullResponseDTO;
 import com.home.profile.student.dto.StudentRequestDTO;
 import com.home.profile.student.dto.StudentResponseDTO;
 import org.modelmapper.ModelMapper;
@@ -40,4 +41,7 @@ public class StudentService {
         studentRepository.deleteById(id);
     }
 
+    public StudentFullResponseDTO getFullStudent() {
+        return null;
+    }
 }
