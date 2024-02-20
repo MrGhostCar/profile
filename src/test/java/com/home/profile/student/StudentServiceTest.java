@@ -1,4 +1,3 @@
 package com.home.profile.student;
 
-public class StudentServiceTest {
-}
+public class StudentServiceTest {}
