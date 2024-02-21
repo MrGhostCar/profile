@@ -2,6 +2,7 @@ package com.home.profile.student;
 
 import com.home.profile.address.AddressDTO;
 import com.home.profile.address.AddressService;
+import com.home.profile.exception.MicroserviceException;
 import com.home.profile.student.dto.StudentFullResponseDTO;
 import com.home.profile.student.dto.StudentRequestDTO;
 import com.home.profile.student.dto.StudentResponseDTO;
@@ -10,11 +11,16 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import org.modelmapper.ModelMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class StudentService {
+
+  Logger logger = LoggerFactory.getLogger(StudentService.class);
+
   @Autowired StudentRepository studentRepository;
 
   @Autowired ModelMapper modelMapper;
@@ -44,8 +50,15 @@ public class StudentService {
     studentRepository.deleteById(id);
   }
 
-  public StudentFullResponseDTO getFullStudent(UUID id) {
-    AddressDTO address = addressService.getAddressByStudentId(id);
+  public StudentFullResponseDTO getFullStudent(UUID id) throws MicroserviceException {
+    AddressDTO address = null;
+    try {
+      address = addressService.getAddressByStudentId(id);
+    } catch (Exception e) {
+      logger.error("Error while reaching address service: {}", e.getMessage());
+      throw new MicroserviceException(e.getMessage());
+    }
+
     Optional<Student> student = studentRepository.findById(id);
 
     if (student.isPresent()) {

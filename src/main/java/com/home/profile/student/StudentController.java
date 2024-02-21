@@ -1,5 +1,6 @@
 package com.home.profile.student;
 
+import com.home.profile.exception.MicroserviceException;
 import com.home.profile.student.dto.StudentFullResponseDTO;
 import com.home.profile.student.dto.StudentRequestDTO;
 import com.home.profile.student.dto.StudentResponseDTO;
@@ -39,8 +40,14 @@ public class StudentController {
   }
 
   @GetMapping("/student/{id}")
-  public StudentFullResponseDTO getFullStudent(@PathVariable UUID id) {
-    return studentService.getFullStudent(id);
+  public ResponseEntity<?> getFullStudent(@PathVariable UUID id) {
+    StudentFullResponseDTO student;
+    try {
+      student = studentService.getFullStudent(id);
+    } catch (MicroserviceException e) {
+      return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+    return new ResponseEntity<>(student, HttpStatus.OK);
   }
 
   @PutMapping("/student")
