@@ -6,6 +6,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import com.home.profile.address.AddressService;
 import com.home.profile.student.dto.StudentRequestDTO;
 import com.home.profile.student.dto.StudentResponseDTO;
 import org.junit.jupiter.api.Test;
@@ -22,6 +23,9 @@ public class StudentControllerTest extends JsonTestConfig {
   @MockBean StudentService studentService;
 
   @MockBean WebClient webClient;
+
+  @MockBean
+  AddressService addressService;
 
   @Autowired MockMvc mockMvc;
 
@@ -98,4 +102,5 @@ public class StudentControllerTest extends JsonTestConfig {
         .andDo(print())
         .andExpect(status().isBadRequest());
   }
+
 }

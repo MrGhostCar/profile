@@ -51,13 +51,7 @@ public class StudentService {
   }
 
   public StudentFullResponseDTO getFullStudent(UUID id) throws MicroserviceException {
-    AddressDTO address = null;
-    try {
-      address = addressService.getAddressByStudentId(id);
-    } catch (Exception e) {
-      logger.error("Error while reaching address service: {}", e.getMessage());
-      throw new MicroserviceException(e.getMessage());
-    }
+    AddressDTO address = addressService.getAddressByStudentId(id);
 
     Optional<Student> student = studentRepository.findById(id);
 
