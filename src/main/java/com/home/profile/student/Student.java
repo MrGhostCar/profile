@@ -17,6 +17,15 @@ public class Student {
 
   private String email;
 
+  public Student(UUID id, String name, String email) {
+    this.id = id;
+    this.name = name;
+    this.email = email;
+  }
+
+  public Student() {
+  }
+
   public UUID getId() {
     return id;
   }

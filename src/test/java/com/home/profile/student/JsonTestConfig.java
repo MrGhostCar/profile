@@ -6,7 +6,7 @@ import com.fasterxml.jackson.databind.ObjectWriter;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import org.junit.jupiter.api.BeforeAll;
 
-public class JsonTest {
+public class JsonTestConfig {
   protected static final ObjectMapper mapper = new ObjectMapper();
   protected static ObjectWriter ow;
 

@@ -16,10 +16,9 @@ import org.springframework.test.web.servlet.MockMvc;
 @SpringBootTest
 @AutoConfigureMockMvc
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
-public class StudentIntegrationTests extends JsonTest {
+public class StudentIntegrationTests extends JsonTestConfig {
 
-  @Autowired
-  MockMvc mockMvc;
+  @Autowired MockMvc mockMvc;
 
   StudentRequestDTO correctStudent =
       new StudentRequestDTO(null, "Kovacs Endre", "kovacs.endre@gmail.com");

@@ -17,7 +17,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.reactive.function.client.WebClient;
 
 @WebMvcTest(StudentController.class)
-public class StudentControllerTest extends JsonTest {
+public class StudentControllerTest extends JsonTestConfig {
 
   @MockBean StudentService studentService;
 
@@ -43,15 +43,15 @@ public class StudentControllerTest extends JsonTest {
   public void testValidation_allFieldsCorrect() throws Exception {
     StudentResponseDTO responseStudent = new StudentResponseDTO();
     StudentRequestDTO correctEmailStudent =
-            new StudentRequestDTO(null, "Kovacs Bela", "kovacs@gmail.com");
+        new StudentRequestDTO(null, "Kovacs Bela", "kovacs@gmail.com");
 
     Mockito.when(studentService.createStudent(any())).thenReturn(responseStudent);
 
     mockMvc
-            .perform(
-                    post("/student").contentType(APPLICATION_JSON).content(getJson(correctEmailStudent)))
-            .andDo(print())
-            .andExpect(status().isCreated());
+        .perform(
+            post("/student").contentType(APPLICATION_JSON).content(getJson(correctEmailStudent)))
+        .andDo(print())
+        .andExpect(status().isCreated());
   }
 
   @Test
