@@ -8,7 +8,6 @@ import com.home.profile.util.Constants;
 import jakarta.validation.Valid;
 import java.util.List;
 import java.util.UUID;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,18 +46,24 @@ public class StudentController {
     } catch (MicroserviceException e) {
       return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
-    if (student == null)
-      return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    if (student == null) return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     return new ResponseEntity<>(student, HttpStatus.OK);
   }
 
   @PutMapping("/student")
-  public void updateStudent(@Valid @RequestBody StudentRequestDTO studentRequestDTO) {
+  public ResponseEntity<StudentResponseDTO> updateStudent(
+      @Valid @RequestBody StudentRequestDTO studentRequestDTO) {
     studentService.updateStudent(studentRequestDTO);
+    return new ResponseEntity<>(HttpStatus.NO_CONTENT);
   }
 
   @DeleteMapping("/student/{id}")
-  public void deleteStudent(@PathVariable UUID id) {
+  public ResponseEntity<?> deleteStudent(@PathVariable UUID id) {
+    Student student = studentService.getStudentById(id);
+    if (student == null)
+      return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
     studentService.deleteStudent(id);
+    return new ResponseEntity<>(HttpStatus.NO_CONTENT);
   }
 }

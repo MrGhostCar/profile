@@ -10,6 +10,15 @@ public class StudentResponseDTO {
 
   private String email;
 
+  public StudentResponseDTO(UUID id, String name, String email) {
+    this.id = id;
+    this.name = name;
+    this.email = email;
+  }
+
+  public StudentResponseDTO() {
+  }
+
   public UUID getId() {
     return id;
   }

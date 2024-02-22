@@ -64,4 +64,9 @@ public class StudentService {
       return null;
     }
   }
+
+  public Student getStudentById(UUID id) {
+    Optional<Student> foundStudent = studentRepository.findById(id);
+    return foundStudent.orElse(null);
+  }
 }

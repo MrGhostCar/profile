@@ -2,8 +2,7 @@ package com.home.profile.student;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -12,7 +11,7 @@ import com.home.profile.address.AddressService;
 import com.home.profile.exception.MicroserviceException;
 import com.home.profile.student.dto.StudentRequestDTO;
 import com.jayway.jsonpath.JsonPath;
-
+import java.util.UUID;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -52,6 +51,17 @@ public class StudentIntegrationTests extends JsonTestConfig {
             post("/student").contentType(APPLICATION_JSON).content(getJson(invalidEmailStudent)))
         .andDo(print())
         .andExpect(status().isBadRequest());
+  }
+
+  @Test
+  public void givenNoRowWithThatId_whenDeleteMade_thenReturn404() throws Exception {
+    mockMvc
+        .perform(
+            delete("/student/{id}", UUID.randomUUID())
+                .contentType(APPLICATION_JSON)
+                .content(getJson(invalidEmailStudent)))
+        .andDo(print())
+        .andExpect(status().isNotFound());
   }
 
   @Test
@@ -106,6 +116,8 @@ public class StudentIntegrationTests extends JsonTestConfig {
         .perform(get("/student").contentType(APPLICATION_JSON))
         .andDo(print())
         .andExpect(status().isOk())
-        .andExpect(jsonPath("$.[*].id", Matchers.hasItem(createdId)));
+        .andExpect(jsonPath("$.[0].id", Matchers.is(createdId)))
+        .andExpect(jsonPath("$.[0].name", Matchers.is(correctStudent.getName())))
+        .andExpect(jsonPath("$.[0].email", Matchers.is(correctStudent.getEmail())));
   }
 }
