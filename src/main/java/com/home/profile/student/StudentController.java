@@ -46,8 +46,9 @@ public class StudentController {
       student = studentService.getFullStudent(id);
     } catch (MicroserviceException e) {
       return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+    } catch (EntityNotFoundException e) {
+      return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
-    if (student == null) return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     return new ResponseEntity<>(student, HttpStatus.OK);
   }
 

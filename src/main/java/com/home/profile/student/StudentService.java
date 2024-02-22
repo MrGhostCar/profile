@@ -62,18 +62,13 @@ public class StudentService {
   }
 
   public StudentFullResponseDTO getFullStudent(UUID id) throws MicroserviceException {
+    StudentFullResponseDTO studentDTO;
+    Student student = studentRepository.findById(id).orElseThrow(EntityNotFoundException::new);
+
     AddressDTO address = addressService.getAddressByStudentId(id);
-
-    Optional<Student> student = studentRepository.findById(id);
-
-    if (student.isPresent()) {
-      StudentFullResponseDTO studentDTO;
-      studentDTO = modelMapper.map(student, StudentFullResponseDTO.class);
-      studentDTO.setAddress(address);
-      return studentDTO;
-    } else {
-      return null;
-    }
+    studentDTO = modelMapper.map(student, StudentFullResponseDTO.class);
+    studentDTO.setAddress(address);
+    return studentDTO;
   }
 
   public Student getStudentById(UUID id) {

@@ -6,4 +6,6 @@ Location of address service is configurable in properties.
 
 ## Usage
 Launch app from command line with: <br>
-mvn spring-boot:run
+mvn spring-boot:run <br>
+<br>
+The application starts on port 8090

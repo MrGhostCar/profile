@@ -75,6 +75,14 @@ public class StudentIntegrationTests extends JsonTestConfig {
   }
 
   @Test
+  public void givenNoUsersInDb_whenPutMadeWithAnId_thenReturn404() throws Exception {
+    mockMvc
+        .perform(put("/student").contentType(APPLICATION_JSON).content(getJson(correctStudent)))
+        .andDo(print())
+        .andExpect(status().isNotFound());
+  }
+
+  @Test
   public void givenNoAddressService_whenGetMade_thenReturnServerError() throws Exception {
 
     Mockito.when(addressService.getAddressByStudentId(any()))
@@ -92,7 +100,7 @@ public class StudentIntegrationTests extends JsonTestConfig {
 
     mockMvc
         .perform(
-            get("/student/{id}", "4edb58d7-3a4e-4654-a4ef-aab4438a61b2")
+            get("/student/{id}", id)
                 .contentType(APPLICATION_JSON))
         .andDo(print())
         .andExpect(status().isInternalServerError());
