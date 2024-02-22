@@ -95,4 +95,16 @@ public class StudentControllerTest extends JsonTestConfig {
         .andDo(print())
         .andExpect(status().isBadRequest());
   }
+
+  @Test
+  public void testOnCreation_whenIdPresent_thenReturns400() throws Exception {
+    StudentRequestDTO studentWithId =
+            new StudentRequestDTO(UUID.randomUUID(), "Kovacs Bela", "@gmail.com");
+
+    mockMvc
+            .perform(
+                    post("/student").contentType(APPLICATION_JSON).content(getJson(studentWithId)))
+            .andDo(print())
+            .andExpect(status().isBadRequest());
+  }
 }

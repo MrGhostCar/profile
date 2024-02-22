@@ -7,6 +7,11 @@ public class AddressDTO {
   private UUID id;
   private String address;
 
+  public AddressDTO(UUID id, String address) {
+    this.id = id;
+    this.address = address;
+  }
+
   public UUID getId() {
     return id;
   }
