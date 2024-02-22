@@ -26,7 +26,7 @@ public class StudentController {
   @PostMapping("/student")
   public ResponseEntity<?> createStudent(@Valid @RequestBody StudentRequestDTO studentRequestDTO) {
     if (studentRequestDTO.getId() != null) {
-      logger.error(Constants.ID_ON_CREATION_MESSAGE);
+      logger.info(Constants.ID_ON_CREATION_MESSAGE);
       return new ResponseEntity<>(Constants.ID_ON_CREATION_MESSAGE, HttpStatus.BAD_REQUEST);
     }
 
