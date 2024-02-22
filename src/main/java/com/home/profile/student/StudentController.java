@@ -5,6 +5,7 @@ import com.home.profile.student.dto.StudentFullResponseDTO;
 import com.home.profile.student.dto.StudentRequestDTO;
 import com.home.profile.student.dto.StudentResponseDTO;
 import com.home.profile.util.Constants;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 import java.util.List;
 import java.util.UUID;
@@ -53,17 +54,21 @@ public class StudentController {
   @PutMapping("/student")
   public ResponseEntity<StudentResponseDTO> updateStudent(
       @Valid @RequestBody StudentRequestDTO studentRequestDTO) {
-    studentService.updateStudent(studentRequestDTO);
+    try {
+      studentService.updateStudent(studentRequestDTO);
+    } catch (EntityNotFoundException e) {
+      return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
     return new ResponseEntity<>(HttpStatus.NO_CONTENT);
   }
 
   @DeleteMapping("/student/{id}")
   public ResponseEntity<?> deleteStudent(@PathVariable UUID id) {
-    Student student = studentService.getStudentById(id);
-    if (student == null)
+    try {
+      studentService.deleteStudent(id);
+    } catch (EntityNotFoundException e) {
       return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-
-    studentService.deleteStudent(id);
+    }
     return new ResponseEntity<>(HttpStatus.NO_CONTENT);
   }
 }

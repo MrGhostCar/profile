@@ -6,6 +6,7 @@ import com.home.profile.exception.MicroserviceException;
 import com.home.profile.student.dto.StudentFullResponseDTO;
 import com.home.profile.student.dto.StudentRequestDTO;
 import com.home.profile.student.dto.StudentResponseDTO;
+import jakarta.persistence.EntityNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -15,6 +16,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class StudentService {
@@ -41,12 +43,21 @@ public class StudentService {
     return studentDTOs;
   }
 
+  @Transactional
   public void updateStudent(StudentRequestDTO studentRequestDTO) {
+    Student foundStudent =
+        studentRepository
+            .findWithLockById(studentRequestDTO.getId())
+            .orElseThrow(EntityNotFoundException::new);
+
     Student student = modelMapper.map(studentRequestDTO, Student.class);
     studentRepository.save(student);
   }
 
+  @Transactional
   public void deleteStudent(UUID id) {
+    Student foundStudent =
+        studentRepository.findWithLockById(id).orElseThrow(EntityNotFoundException::new);
     studentRepository.deleteById(id);
   }
 
